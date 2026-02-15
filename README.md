@@ -1,6 +1,7 @@
 # OSPW Matrix — Private Chat Infrastructure
 
 Self-hosted, isolated Matrix homeserver with Element Web client and TURN server for voice/video calls.
+
 Designed as a private Discord replacement with full data sovereignty.
 
 ## Comment
