@@ -1,0 +1,80 @@
+## Synapse Homeserver Configuration
+## Docs: https://element-hq.github.io/synapse/latest/usage/configuration/config_documentation.html
+
+server_name: "matrix.ospw.de"
+public_baseurl: "https://matrix.ospw.de/"
+pid_file: /data/homeserver.pid
+
+listeners:
+  - port: 8008
+    tls: false
+    type: http
+    x_forwarded: true
+    bind_addresses: ["0.0.0.0"]
+    resources:
+      - names: [client]
+        compress: false
+
+# Database
+database:
+  name: psycopg2
+  args:
+    user: synapse
+    password: "CHANGE_ME_DB_PASSWORD"
+    database: synapse
+    host: synapse-db
+    port: 5432
+    cp_min: 5
+    cp_max: 10
+
+log_config: "/data/matrix.ospw.de.log.config"
+
+media_store_path: /data/media_store
+max_upload_size: 50M
+url_preview_enabled: false
+
+# No federation — isolated mode
+federation_domain_whitelist: []
+restrict_public_rooms_to_local_users: true
+
+enable_registration: false
+enable_registration_without_verification: false
+
+signing_key_path: "/data/matrix.ospw.de.signing.key"
+trusted_key_servers: []
+suppress_key_server_warning: true
+
+password_config:
+  enabled: true
+
+rc_message:
+  per_second: 0.2
+  burst_count: 10
+
+rc_login:
+  address:
+    per_second: 0.17
+    burst_count: 3
+  account:
+    per_second: 0.17
+    burst_count: 3
+
+report_stats: false
+
+retention:
+  enabled: true
+  default_policy:
+    min_lifetime: 1d
+    max_lifetime: 365d
+
+macaroon_secret_key: "CHANGE_ME_MACAROON_SECRET"
+form_secret: "CHANGE_ME_FORM_SECRET"
+registration_shared_secret: "CHANGE_ME_REGISTRATION_SECRET"
+
+# TURN server for voice/video calls
+turn_uris:
+  - "turn:matrix.ospw.de:3478?transport=udp"
+  - "turn:matrix.ospw.de:3478?transport=tcp"
+turn_shared_secret: "CHANGE_ME_TURN_SECRET"
+turn_user_lifetime: 86400000
+turn_allow_guests: false

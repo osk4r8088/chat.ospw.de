@@ -1,0 +1,5 @@
+.env
+*.env
+synapse-db-data/
+synapse/media_store/
+synapse/*.signing.key
