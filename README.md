@@ -173,7 +173,7 @@ Wait about 15 seconds for Synapse to initialize, then verify:
 docker compose ps                    # All containers should be healthy
 docker compose logs synapse --tail 5 # Should show "STARTING SERVER"
 
-User Management
+### User Management
 Create a new user
 Since public registration is disabled, you create all accounts as admin:
 
@@ -182,20 +182,19 @@ docker exec -it synapse register_new_matrix_user \
 
 It will ask you:
 
-Username — this becomes their Matrix ID: @username:yourdomain.com
-Password — give this to the user, they should change it after first login
-Admin? — say yes for yourself, no for regular users
-How users connect
-Users can use any of these clients:
+Username: this becomes their Matrix ID: @username:yourdomain.com
 
-Platform	How to connect
-Browser	Go to chat.yourdomain.com
-Desktop	Download Element Desktop from element.io/download — set homeserver to matrix.yourdomain.com
-Android	Install Element from Play Store — set homeserver to matrix.yourdomain.com
-iOS	Install Element from App Store — set homeserver to matrix.yourdomain.com
-Important: Users must manually change the homeserver from the default matrix.org to your domain when logging in.
+Password: give this to the user, they should change it after first login
 
-What users can do
+Admin? say yes for yourself, no for regular users
+
+### Platform / How to connect
+Browser: 	Login to chat.yourdomain.com
+Desktop:	Download Element Desktop from element.io/download, set homeserver to matrix.yourdomain.com
+Android:	Install Element from Play Store, set homeserver to matrix.yourdomain.com
+iOS:	Install Element from App Store, set homeserver to matrix.yourdomain.com
+
+### What users can do
 Send text, images, files, videos, voice messages
 Make voice and video calls (1:1 and group)
 Create rooms and invite other users on the server
@@ -208,7 +207,8 @@ Communicate with users on other Matrix servers (federation is off)
 Join public rooms on other servers
 Access admin tools
 Reset a users password
-If a user forgets their password:
+
+### If a user forgets their password:
 
 docker exec -it synapse python -m synapse._scripts.hash_password
 
@@ -217,7 +217,7 @@ Enter the new password when prompted. Then update the database:
 docker exec -it synapse-db psql -U synapse -d synapse -c \
   "UPDATE users SET password_hash='<hash-from-above>' WHERE name='@username:yourdomain.com';"
 
-Operations
+### Operations
 docker compose logs -f synapse     # Synapse logs (live)
 docker compose logs -f coturn      # Coturn logs (live)
 docker compose restart synapse     # Restart Synapse after config changes
@@ -225,14 +225,15 @@ docker compose down                # Stop all services
 docker compose up -d               # Start all services
 docker compose pull                # Pull latest images (for updates)
 
-Security
+### Security
 Signing key (*.signing.key) is gitignored — back it up separately, losing it means losing your server identity
 E2EE — enable per room for true end-to-end encryption where even the server admin cannot read messages
 Coturn blocks relay to all private IP ranges to prevent SSRF attacks
 No secrets in this repo — all values are placeholders
 No Docker ports exposed to host — all traffic routes through Caddy
 Federation disabled — no external attack surface from other Matrix servers
-Future Improvements
+
+### Future Improvements
  Authentik OIDC SSO integration
  SMTP for email verification
  Automated backups (Restic to offsite storage)
