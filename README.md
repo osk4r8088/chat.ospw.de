@@ -165,7 +165,7 @@ sudo ufw allow 3478/tcp    # TURN signaling
 sudo ufw allow 3478/udp    # TURN signaling
 sudo ufw allow 49152:65535/udp  # Media relay range
 
-### Final Step: Start everything
+## Final Step: Start everything
 docker compose up -d
 
 Wait about 15 seconds for Synapse to initialize, then verify:
@@ -219,24 +219,39 @@ docker exec -it synapse-db psql -U synapse -d synapse -c \
 
 ### Operations
 docker compose logs -f synapse     # Synapse logs (live)
+
 docker compose logs -f coturn      # Coturn logs (live)
+
 docker compose restart synapse     # Restart Synapse after config changes
+
 docker compose down                # Stop all services
+
 docker compose up -d               # Start all services
+
 docker compose pull                # Pull latest images (for updates)
 
 ### Security
 Signing key (*.signing.key) is gitignored — back it up separately, losing it means losing your server identity
+
 E2EE — enable per room for true end-to-end encryption where even the server admin cannot read messages
+
 Coturn blocks relay to all private IP ranges to prevent SSRF attacks
+
 No secrets in this repo — all values are placeholders
+
 No Docker ports exposed to host — all traffic routes through Caddy
+
 Federation disabled — no external attack surface from other Matrix servers
 
 ### Future Improvements
  Authentik OIDC SSO integration
+ 
  SMTP for email verification
+ 
  Automated backups (Restic to offsite storage)
+ 
  AI bot integration (Ollama + matrix-nio)
+ 
  Synapse Admin UI
+ 
  Custom Element Web branding
