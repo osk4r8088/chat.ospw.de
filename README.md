@@ -126,7 +126,7 @@ EOF
 ### Step 7: Fix permissions
 Synapse runs as UID 991 inside the container. The data directory needs to be owned by this user:
 
-sudo chown -R 991:991 synapse/
+``sudo chown -R 991:991 synapse/``
 
 ### Step 8: Set up DNS
 Create A records at your domain registrar pointing to your servers IP:
@@ -139,7 +139,7 @@ chat.yourdomain.com	A	your-server-ip
 ### Step 9: Configure reverse proxy (Caddy)
 Add these entries to your Caddyfile. Caddy will automatically handle HTTPS/TLS certificates:
 
-matrix.yourdomain.com {
+``matrix.yourdomain.com {
     reverse_proxy synapse:8008
     encode gzip
     header {
@@ -148,9 +148,9 @@ matrix.yourdomain.com {
         X-Content-Type-Options "nosniff"
         Referrer-Policy "strict-origin-when-cross-origin"
     }
-}
+}``
 
-chat.yourdomain.com {
+``chat.yourdomain.com {
     reverse_proxy element-web:80
     encode gzip
     header {
@@ -159,7 +159,7 @@ chat.yourdomain.com {
         X-Content-Type-Options "nosniff"
         Referrer-Policy "strict-origin-when-cross-origin"
     }
-}
+}``
 
 Reload Caddy after editing:
 
