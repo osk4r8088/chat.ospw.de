@@ -6,9 +6,13 @@ Designed as a private Discord replacement with full data sovereignty.
 ## Comment
 
 All Users are created and distributed by you. User side registration methods like authentik can (and will) be added in the future.
+
 Users cant connect their Email right now due to no SMTP service having been configured. (for sending verification emails) ill fix this together with authentik.
+
 If you want users registered on your server to be able to access any connectivity outside of your network, such as messaging users or joining public rooms like your used to with discord.
+
 Then that means that all content send to your users from outside connections and servers WILL be cached on your server, meaning your responsible for that data without having the ability to aprove, limit or view that data.
+
 Federation settings will have to be changed if you want that outside connectivity. In that case i dont recommend using this repo as a template for deployment.
 
 ## Benefits / Key Design Decisions
