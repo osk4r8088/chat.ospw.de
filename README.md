@@ -81,11 +81,11 @@ nano synapse/homeserver.yaml
 
 | Placeholder in file | Replace with |
 |---------------------|-------------|
-| `${SYNAPSE_DB_PASSWORD}` | Same value as SYNAPSE_DB_PASSWORD from .env |
-| `${SYNAPSE_MACAROON_SECRET}` | Same value as SYNAPSE_MACAROON_SECRET from .env |
-| `${SYNAPSE_FORM_SECRET}` | Same value as SYNAPSE_FORM_SECRET from .env |
-| `${SYNAPSE_REGISTRATION_SECRET}` | Same value as SYNAPSE_REGISTRATION_SECRET from .env |
-| `TURN_SECRET_PLACEHOLDER` | Same value as TURN_SHARED_SECRET from .env |
+| `CHANGE_ME_DB_PASSWORD` | Same value as SYNAPSE_DB_PASSWORD from .env |
+| `CHANGE_ME_MACAROON_SECRET` | Same value as SYNAPSE_MACAROON_SECRET from .env |
+| `CHANGE_ME_FORM_SECRET` | Same value as SYNAPSE_FORM_SECRET from .env |
+| `CHANGE_ME_REGISTRATION_SECRET` | Same value as SYNAPSE_REGISTRATION_SECRET from .env |
+| `CHANGE_ME_TURN_SECRET` | Same value as TURN_SHARED_SECRET from .env |
 
 Also update `server_name` and `public_baseurl` to your domain (default is matrix.ospw.de).
 
@@ -100,7 +100,7 @@ Replace these two values:
 | Placeholder in file | Replace with |
 |---------------------|-------------|
 | `YOUR_PUBLIC_IP` | Your servers public IPv4 address (find it with `curl -4 ifconfig.me`) |
-| `TURN_SECRET_PLACEHOLDER` | Same value as TURN_SHARED_SECRET from .env (must match homeserver.yaml) |
+| `CHANGE_ME_TURN_SECRET` | Same value as TURN_SHARED_SECRET from .env (must match homeserver.yaml) |
 
 Also update `realm` to your domain if different from matrix.ospw.de.
 
