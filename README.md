@@ -41,17 +41,22 @@ Federation settings will have to be changed if you want that outside connectivit
 
 ### Step 1: Clone and configure environment
 
-git clone https://github.com/osk4r8088/ospw-matrix.git
+```git clone https://github.com/osk4r8088/ospw-matrix.git
 cd ospw-matrix
 cp .env.example .env
+```
 
 Generate 5 secrets (one per line — use them for the values below):
 
+```
 python3 -c "import secrets; [print(secrets.token_hex(32)) for _ in range(5)]"
+```
 
 Open .env and replace every placeholder with one of the generated secrets:
 
+```
 nano .env
+```
 
 The file looks like this — replace each value:
 
@@ -63,7 +68,7 @@ TURN_SHARED_SECRET=<secret-5>
 
 
 ### Step 2: Configure Synapse
-nano synapse/homeserver.yaml
+```nano synapse/homeserver.yaml```
 
 Important: Synapse does NOT read environment variables. You must replace the placeholders in this file with the actual secret strings:
 
@@ -77,7 +82,7 @@ Also update server_name and public_baseurl to your domain (default is matrix.osp
 
 
 ### Step 3: Configure Coturn
-nano coturn/turnserver.conf
+```nano coturn/turnserver.conf```
 
 Replace these two values:
 
@@ -88,23 +93,24 @@ Also update realm to your domain if different from matrix.ospw.de.
 
 
 ### Step 4: Configure Element Web
-nano element/config.json
+```nano element/config.json```
 
 Update base_url and server_name to match your domain.
 
-Step 5: Generate the Synapse signing key
+### Step 5: Generate the Synapse signing key
 This key is used to sign all events on your server. Generate it once and back it up — if you lose it, your server identity is gone:
 
-docker run --rm --entrypoint python matrixdotorg/synapse:latest -c \
+```docker run --rm --entrypoint python matrixdotorg/synapse:latest -c \
   "from signedjson.key import generate_signing_key, write_signing_keys; import sys; \
   write_signing_keys(sys.stdout, [generate_signing_key('a_MNgy')])" \
   > synapse/matrix.ospw.de.signing.key
+```
 
 Rename the file if your domain is different from matrix.ospw.de and update the signing_key_path in homeserver.yaml accordingly.
 
 
 ### Step 6: Create the log config
-cat > synapse/matrix.ospw.de.log.config << 'EOF'
+```cat > synapse/matrix.ospw.de.log.config << 'EOF'
 version: 1
 formatters:
   precise:
@@ -121,12 +127,13 @@ root:
   handlers: [console]
 disable_existing_loggers: false
 EOF
+```
 
 
 ### Step 7: Fix permissions
 Synapse runs as UID 991 inside the container. The data directory needs to be owned by this user:
 
-``sudo chown -R 991:991 synapse/``
+```sudo chown -R 991:991 synapse/```
 
 ### Step 8: Set up DNS
 Create A records at your domain registrar pointing to your servers IP:
