@@ -40,7 +40,6 @@ Federation settings will have to be changed if you want that outside connectivit
 
 ### Step 1: Clone and configure environment
 
-```bash
 git clone https://github.com/osk4r8088/ospw-matrix.git
 cd ospw-matrix
 cp .env.example .env
