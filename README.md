@@ -60,7 +60,7 @@ SYNAPSE_FORM_SECRET=<secret-3>
 SYNAPSE_REGISTRATION_SECRET=<secret-4>
 TURN_SHARED_SECRET=<secret-5>
 
-Step 2: Configure Synapse
+### Step 2: Configure Synapse
 nano synapse/homeserver.yaml
 
 Important: Synapse does NOT read environment variables. You must replace the placeholders in this file with the actual secret strings:
@@ -73,7 +73,7 @@ CHANGE_ME_REGISTRATION_SECRET	Same value as SYNAPSE_REGISTRATION_SECRET from .en
 CHANGE_ME_TURN_SECRET	Same value as TURN_SHARED_SECRET from .env
 Also update server_name and public_baseurl to your domain (default is matrix.ospw.de).
 
-Step 3: Configure Coturn
+### Step 3: Configure Coturn
 nano coturn/turnserver.conf
 
 Replace these two values:
@@ -83,7 +83,7 @@ YOUR_PUBLIC_IP	Your servers public IPv4 address (find it with curl -4 ifconfig.m
 CHANGE_ME_TURN_SECRET	Same value as TURN_SHARED_SECRET from .env (must match homeserver.yaml)
 Also update realm to your domain if different from matrix.ospw.de.
 
-Step 4: Configure Element Web
+### Step 4: Configure Element Web
 nano element/config.json
 
 Update base_url and server_name to match your domain.
@@ -98,7 +98,7 @@ docker run --rm --entrypoint python matrixdotorg/synapse:latest -c \
 
 Rename the file if your domain is different from matrix.ospw.de and update the signing_key_path in homeserver.yaml accordingly.
 
-Step 6: Create the log config
+### Step 6: Create the log config
 cat > synapse/matrix.ospw.de.log.config << 'EOF'
 version: 1
 formatters:
@@ -117,18 +117,19 @@ root:
 disable_existing_loggers: false
 EOF
 
-Step 7: Fix permissions
+### Step 7: Fix permissions
 Synapse runs as UID 991 inside the container. The data directory needs to be owned by this user:
 
 sudo chown -R 991:991 synapse/
 
-Step 8: Set up DNS
+### Step 8: Set up DNS
 Create A records at your domain registrar pointing to your servers IP:
 
 Subdomain	Type	Value
 matrix.yourdomain.com	A	your-server-ip
 chat.yourdomain.com	A	your-server-ip
-Step 9: Configure reverse proxy (Caddy)
+
+### Step 9: Configure reverse proxy (Caddy)
 Add these entries to your Caddyfile. Caddy will automatically handle HTTPS/TLS certificates:
 
 matrix.yourdomain.com {
@@ -157,14 +158,14 @@ Reload Caddy after editing:
 
 docker exec caddy caddy reload --config /etc/caddy/Caddyfile
 
-Step 10: Open firewall ports
+### Step 10: Open firewall ports
 Coturn needs these ports for voice/video call relay:
 
 sudo ufw allow 3478/tcp    # TURN signaling
 sudo ufw allow 3478/udp    # TURN signaling
 sudo ufw allow 49152:65535/udp  # Media relay range
 
-Step 11: Start everything
+### Step 11: Start everything
 docker compose up -d
 
 Wait about 15 seconds for Synapse to initialize, then verify:
