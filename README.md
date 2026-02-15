@@ -205,18 +205,18 @@ Android:	Install Element from Play Store, set homeserver to matrix.yourdomain.co
 iOS:	Install Element from App Store, set homeserver to matrix.yourdomain.com
 
 ## What users can do
-Send text, images, files, videos, voice messages
-Make voice and video calls (1:1 and group)
-Create rooms and invite other users on the server
-Enable end-to-end encryption per room
-Change their display name, avatar, and password
-Set notification preferences
-What users cannot do
-Register new accounts themselves
-Communicate with users on other Matrix servers (federation is off)
-Join public rooms on other servers
-Access admin tools
-Reset a users password
+- Send text, images, files, videos, voice messages
+- Make voice and video calls (1:1 and group)
+- Create rooms and invite other users on the server
+- Enable end-to-end encryption per room
+- Change their display name, avatar, and password
+- Set notification preferences
+- What users cannot do
+- Register new accounts themselves
+- Communicate with users on other Matrix servers (federation is off)
+- Join public rooms on other servers
+- Access admin tools
+- Reset a users password
 
 
 ## If a user forgets their password:
@@ -244,17 +244,17 @@ docker compose pull                # Pull latest images (for updates)
 
 
 ## Security
-Signing key (*.signing.key) is gitignored — back it up separately, losing it means losing your server identity
+Signing key (*.signing.key) is gitignored: back it up separately, losing it means losing your server identity
 
-E2EE — enable per room for true end-to-end encryption where even the server admin cannot read messages
+E2EE: enable per room for true end-to-end encryption where even the server admin cannot read messages
 
 Coturn blocks relay to all private IP ranges to prevent SSRF attacks
 
-No secrets in this repo — all values are placeholders
+No secrets in this repo: all values are placeholders
 
-No Docker ports exposed to host — all traffic routes through Caddy
+No Docker ports exposed to host: all traffic routes through Caddy
 
-Federation disabled — no external attack surface from other Matrix servers
+Federation disabled: no external attack surface from other Matrix servers
 
 
 ## Future Improvements
