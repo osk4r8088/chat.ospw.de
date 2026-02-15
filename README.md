@@ -182,7 +182,7 @@ Wait about 15 seconds for Synapse to initialize, then verify:
 docker compose ps                    # All containers should be healthy
 docker compose logs synapse --tail 5 # Should show "STARTING SERVER"
 
-### User Management
+## User Management
 Create a new user
 Since public registration is disabled, you create all accounts as admin:
 
@@ -198,13 +198,13 @@ Password: give this to the user, they should change it after first login
 Admin? say yes for yourself, no for regular users
 
 
-### Platform / How to connect
+## Platform / How to connect
 Browser: 	Login to chat.yourdomain.com
 Desktop:	Download Element Desktop from element.io/download, set homeserver to matrix.yourdomain.com
 Android:	Install Element from Play Store, set homeserver to matrix.yourdomain.com
 iOS:	Install Element from App Store, set homeserver to matrix.yourdomain.com
 
-### What users can do
+## What users can do
 Send text, images, files, videos, voice messages
 Make voice and video calls (1:1 and group)
 Create rooms and invite other users on the server
@@ -219,7 +219,7 @@ Access admin tools
 Reset a users password
 
 
-### If a user forgets their password:
+## If a user forgets their password:
 
 docker exec -it synapse python -m synapse._scripts.hash_password
 
@@ -229,7 +229,7 @@ docker exec -it synapse-db psql -U synapse -d synapse -c \
   "UPDATE users SET password_hash='<hash-from-above>' WHERE name='@username:yourdomain.com';"
 
 
-### Operations
+## Operations
 docker compose logs -f synapse     # Synapse logs (live)
 
 docker compose logs -f coturn      # Coturn logs (live)
@@ -243,7 +243,7 @@ docker compose up -d               # Start all services
 docker compose pull                # Pull latest images (for updates)
 
 
-### Security
+## Security
 Signing key (*.signing.key) is gitignored — back it up separately, losing it means losing your server identity
 
 E2EE — enable per room for true end-to-end encryption where even the server admin cannot read messages
@@ -257,7 +257,7 @@ No Docker ports exposed to host — all traffic routes through Caddy
 Federation disabled — no external attack surface from other Matrix servers
 
 
-### Future Improvements
+## Future Improvements
  Authentik OIDC SSO integration
  
  SMTP for email verification
