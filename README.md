@@ -38,7 +38,6 @@ Federation settings will have to be changed if you want that outside connectivit
 
 ## Setup
 
-
 ### Step 1: Clone and configure environment
 
 ```git clone https://github.com/osk4r8088/ospw-matrix.git
@@ -58,7 +57,7 @@ Open .env and replace every placeholder with one of the generated secrets:
 nano .env
 ```
 
-The file looks like this — replace each value:
+The file looks like this: replace each value:
 
 SYNAPSE_DB_PASSWORD=<secret-1>
 SYNAPSE_MACAROON_SECRET=<secret-2>
@@ -87,8 +86,11 @@ Also update server_name and public_baseurl to your domain (default is matrix.osp
 Replace these two values:
 
 Placeholder	Replace with
-YOUR_PUBLIC_IP	Your servers public IPv4 address (find it with curl -4 ifconfig.me)
-CHANGE_ME_TURN_SECRET	Same value as TURN_SHARED_SECRET from .env (must match homeserver.yaml)
+
+YOUR_PUBLIC_IP: Your servers public IPv4 address (find it with curl -4 ifconfig.me)
+
+CHANGE_ME_TURN_SECRET:	Same value as TURN_SHARED_SECRET from .env (must match homeserver.yaml)
+
 Also update realm to your domain if different from matrix.ospw.de.
 
 
@@ -178,25 +180,24 @@ docker exec caddy caddy reload --config /etc/caddy/Caddyfile
 ### Step 10: Open firewall ports
 Coturn needs these ports for voice/video call relay:
 
-sudo ufw allow 3478/tcp    # TURN signaling
-sudo ufw allow 3478/udp    # TURN signaling
-sudo ufw allow 49152:65535/udp  # Media relay range
+```sudo ufw allow 3478/tcp    # TURN signaling```
+```sudo ufw allow 3478/udp    # TURN signaling```
+```sudo ufw allow 49152:65535/udp  # Media relay range```
 
 
 ## Final Step: Start everything
-docker compose up -d
+```docker compose up -d```
 
 Wait about 15 seconds for Synapse to initialize, then verify:
 
-docker compose ps                    # All containers should be healthy
-docker compose logs synapse --tail 5 # Should show "STARTING SERVER"
+```docker compose ps                    # All containers should be healthy```
+```docker compose logs synapse --tail 5 # Should show "STARTING SERVER"```
 
 ## User Management
 Create a new user
 Since public registration is disabled, you create all accounts as admin:
 
-docker exec -it synapse register_new_matrix_user \
-  -c /data/homeserver.yaml http://localhost:8008
+```docker exec -it synapse register_new_matrix_user \ -c /data/homeserver.yaml http://localhost:8008```
 
 It will ask you:
 
@@ -230,26 +231,25 @@ iOS:	Install Element from App Store, set homeserver to matrix.yourdomain.com
 
 ## If a user forgets their password:
 
-docker exec -it synapse python -m synapse._scripts.hash_password
+```docker exec -it synapse python -m synapse._scripts.hash_password```
 
 Enter the new password when prompted. Then update the database:
 
-docker exec -it synapse-db psql -U synapse -d synapse -c \
-  "UPDATE users SET password_hash='<hash-from-above>' WHERE name='@username:yourdomain.com';"
+```docker exec -it synapse-db psql -U synapse -d synapse -c \"UPDATE users SET password_hash='<hash-from-above>' WHERE name='@username:yourdomain.com';"```
 
 
 ## Operations
-docker compose logs -f synapse     # Synapse logs (live)
+```docker compose logs -f synapse     # Synapse logs (live)```
 
-docker compose logs -f coturn      # Coturn logs (live)
+```docker compose logs -f coturn      # Coturn logs (live)```
 
-docker compose restart synapse     # Restart Synapse after config changes
+```docker compose restart synapse     # Restart Synapse after config changes```
 
-docker compose down                # Stop all services
+```docker compose down                # Stop all services```
 
-docker compose up -d               # Start all services
+```docker compose up -d               # Start all services```
 
-docker compose pull                # Pull latest images (for updates)
+```docker compose pull                # Pull latest images (for updates)```
 
 
 ## Security
