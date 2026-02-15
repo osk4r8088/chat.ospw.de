@@ -258,14 +258,14 @@ Federation disabled — no external attack surface from other Matrix servers
 
 
 ## Future Improvements
- Authentik OIDC SSO integration
+- Authentik OIDC SSO integration
  
- SMTP for email verification
+- SMTP for email verification
  
- Automated backups (Restic to offsite storage)
+- Automated backups (Restic to offsite storage)
+
+- AI bot integration (Ollama + matrix-nio)
  
- AI bot integration (Ollama + matrix-nio)
+- Synapse Admin UI
  
- Synapse Admin UI
- 
- Custom Element Web branding
+- Custom Element Web branding
