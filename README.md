@@ -38,6 +38,7 @@ Federation settings will have to be changed if you want that outside connectivit
 
 ## Setup
 
+
 ### Step 1: Clone and configure environment
 
 git clone https://github.com/osk4r8088/ospw-matrix.git
@@ -60,6 +61,7 @@ SYNAPSE_FORM_SECRET=<secret-3>
 SYNAPSE_REGISTRATION_SECRET=<secret-4>
 TURN_SHARED_SECRET=<secret-5>
 
+
 ### Step 2: Configure Synapse
 nano synapse/homeserver.yaml
 
@@ -73,6 +75,7 @@ CHANGE_ME_REGISTRATION_SECRET	Same value as SYNAPSE_REGISTRATION_SECRET from .en
 CHANGE_ME_TURN_SECRET	Same value as TURN_SHARED_SECRET from .env
 Also update server_name and public_baseurl to your domain (default is matrix.ospw.de).
 
+
 ### Step 3: Configure Coturn
 nano coturn/turnserver.conf
 
@@ -82,6 +85,7 @@ Placeholder	Replace with
 YOUR_PUBLIC_IP	Your servers public IPv4 address (find it with curl -4 ifconfig.me)
 CHANGE_ME_TURN_SECRET	Same value as TURN_SHARED_SECRET from .env (must match homeserver.yaml)
 Also update realm to your domain if different from matrix.ospw.de.
+
 
 ### Step 4: Configure Element Web
 nano element/config.json
@@ -97,6 +101,7 @@ docker run --rm --entrypoint python matrixdotorg/synapse:latest -c \
   > synapse/matrix.ospw.de.signing.key
 
 Rename the file if your domain is different from matrix.ospw.de and update the signing_key_path in homeserver.yaml accordingly.
+
 
 ### Step 6: Create the log config
 cat > synapse/matrix.ospw.de.log.config << 'EOF'
@@ -117,6 +122,7 @@ root:
 disable_existing_loggers: false
 EOF
 
+
 ### Step 7: Fix permissions
 Synapse runs as UID 991 inside the container. The data directory needs to be owned by this user:
 
@@ -128,6 +134,7 @@ Create A records at your domain registrar pointing to your servers IP:
 Subdomain	Type	Value
 matrix.yourdomain.com	A	your-server-ip
 chat.yourdomain.com	A	your-server-ip
+
 
 ### Step 9: Configure reverse proxy (Caddy)
 Add these entries to your Caddyfile. Caddy will automatically handle HTTPS/TLS certificates:
@@ -158,12 +165,14 @@ Reload Caddy after editing:
 
 docker exec caddy caddy reload --config /etc/caddy/Caddyfile
 
+
 ### Step 10: Open firewall ports
 Coturn needs these ports for voice/video call relay:
 
 sudo ufw allow 3478/tcp    # TURN signaling
 sudo ufw allow 3478/udp    # TURN signaling
 sudo ufw allow 49152:65535/udp  # Media relay range
+
 
 ## Final Step: Start everything
 docker compose up -d
@@ -188,6 +197,7 @@ Password: give this to the user, they should change it after first login
 
 Admin? say yes for yourself, no for regular users
 
+
 ### Platform / How to connect
 Browser: 	Login to chat.yourdomain.com
 Desktop:	Download Element Desktop from element.io/download, set homeserver to matrix.yourdomain.com
@@ -208,6 +218,7 @@ Join public rooms on other servers
 Access admin tools
 Reset a users password
 
+
 ### If a user forgets their password:
 
 docker exec -it synapse python -m synapse._scripts.hash_password
@@ -216,6 +227,7 @@ Enter the new password when prompted. Then update the database:
 
 docker exec -it synapse-db psql -U synapse -d synapse -c \
   "UPDATE users SET password_hash='<hash-from-above>' WHERE name='@username:yourdomain.com';"
+
 
 ### Operations
 docker compose logs -f synapse     # Synapse logs (live)
@@ -230,6 +242,7 @@ docker compose up -d               # Start all services
 
 docker compose pull                # Pull latest images (for updates)
 
+
 ### Security
 Signing key (*.signing.key) is gitignored — back it up separately, losing it means losing your server identity
 
@@ -242,6 +255,7 @@ No secrets in this repo — all values are placeholders
 No Docker ports exposed to host — all traffic routes through Caddy
 
 Federation disabled — no external attack surface from other Matrix servers
+
 
 ### Future Improvements
  Authentik OIDC SSO integration
