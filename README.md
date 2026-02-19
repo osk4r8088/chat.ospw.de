@@ -307,3 +307,5 @@ docker compose pull                # Pull latest images (for updates)
 - AI bot integration (Ollama + matrix-nio)
 - Synapse Admin UI
 - Custom Element Web branding
+
+111
