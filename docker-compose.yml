@@ -1,6 +1,6 @@
 services:
   synapse-db:
-    image: postgres:16-alpine
+    image: postgres:16.12-alpine
     container_name: synapse-db
     restart: unless-stopped
     environment:
@@ -17,9 +17,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    mem_limit: 512m
+    cpus: 1.0
 
   synapse:
-    image: matrixdotorg/synapse:latest
+    image: matrixdotorg/synapse:v1.147.0
     container_name: synapse
     restart: unless-stopped
     environment:
@@ -39,18 +41,22 @@ services:
       timeout: 5s
       retries: 3
       start_period: 30s
+    mem_limit: 1536m
+    cpus: 2.0
 
   element-web:
-    image: vectorim/element-web:latest
+    image: vectorim/element-web:v1.12.9
     container_name: element-web
     restart: unless-stopped
     volumes:
       - ./element/config.json:/app/config.json:ro
     networks:
       - frontend
+    mem_limit: 128m
+    cpus: 0.5
 
   coturn:
-    image: coturn/coturn:latest
+    image: coturn/coturn:4.8.0-r0
     container_name: coturn
     restart: unless-stopped
     network_mode: host
@@ -58,6 +64,8 @@ services:
       - ./coturn/turnserver.conf:/etc/coturn/turnserver.conf:ro
     tmpfs:
       - /var/tmp
+    mem_limit: 256m
+    cpus: 1.0
 
 networks:
   synapse-internal:
